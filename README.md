@@ -1,1 +1,2 @@
-# KindOfTetris Game for training purpose with certification school ironhack.. 
+# KindOfTetris Game :
+for training purpose only with the certification school ironhack.. 
