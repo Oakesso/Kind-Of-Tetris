@@ -1,81 +1,90 @@
-// get canvas.
 var canvas = document.getElementById("myCanvas");
-// add event listener to listen to keyboard events (arrow keys).
 canvas.addEventListener('keydown', actionOnArrowKeys, true);
-// get context.
 const ctx = canvas.getContext('2d');
-
-// define starting position for the shape.
-let x = 250;
-let y = 0;
-
-// speed of square.
-let vx = 10;
-let vy = 10;
-
-// declare shape color to be defined.
+let x = 250; // starting position on x axis
+let y = 0; // starting position on y axis
+let vx = 25; // speed applied for x axis moves.
+let vy = 25; // speed applied for y axis moves.
 let color = 'blue';
+const h = 50; // hight size.
+const l = h; // width size (= h to have a square shape.
+const movement = 50; //  distance applied on arrow key pressed.
 
-// h & l for sizing the ractangular shape.
-const h = 50;
-const l = 50;
-const movement = 50;
-
-// function triggered for event listener. 
-function actionOnArrowKeys(e){
-  //	ARROW KEY --> UP.
-  if (e.keyCode == 38) {
-    console.log(e.keyCode);
+// square limit for top side. 
+function topWall () {
+  if (y <= 0) {
+    y = 0;
+  } else {
     y = y - movement;
   }
+}
 
-  //	ARROW KEY --> DOWN.
-  if (e.keyCode == 40) {
-    console.log(e.keyCode);
-    y = y + movement;
+// square limit for bottom side. 
+function bottomWall () {
+  if (y >= (canvas.height - h)) {
+    y = (canvas.height - h);
+  } else {
+    y = y + movement;    
   }
+}
 
-  //	ARROW KEY --> LEFT.
-  if (e.keyCode == 37) {
-    console.log(e.keyCode);
+// square shape limit for left side.
+function leftWall () {
+  if (x <= 0) {
+    x = 0;
+  } else {
     x = x - movement;
-    if (x - movement > canvas.width) {x = 0}
   }
+}
 
-  //	ARROW KEY --> RIGHT.
+//square shape limit for rigth side.
+function rigthWall () {
+  if (x >= (canvas.width - h)) {
+    x = (canvas.width - h);
+  } else {
+    x = x + movement;    
+  }
+}
+
+function actionOnArrowKeys(e){
+  // UP.
+  if (e.keyCode == 38) {
+    console.log(canvas.height, y - canvas.height, x, y);
+    topWall ();
+  }
+  // DOWN.
+  if (e.keyCode == 40) {
+    console.log(canvas.height, y + canvas.height, x, y);
+    bottomWall ();
+  }
+  // LEFT.
+  if (e.keyCode == 37) {
+    console.log(canvas.width, x - canvas.width, x, y);
+    leftWall ();    
+    }
+  //	RIGHT.
   if (e.keyCode == 39) {
-    console.log(e.keyCode);
-    x = x + movement;
+    console.log(canvas.width, x + canvas.width, x, y);
+    rigthWall ();    
   }
 }
 
 function update() {
-  // erase ancient position of the shape in movement.
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // draw the rectangular shape in canvas' context.
-  ctx.fillRect(x, y, h, l);
-  // apply color to shape.
-  ctx.fillStyle = color;
-  
-  // ctx.fillRect(h + dev, y, h, l);
-  // ctx.fillRect(h*2 + dev, y, h, l);
-  // ctx.fillRect(dev, y + l, h, l);
-  // ctx.fillRect(50, 100, 50, 50);
-
-  // define shape movements. 
-  // x += vx; // right & left moves. used for lateral moves.
-  y += vy; // up & down moves.
-  // condition for height: stop movement. 
+  ctx.fillStyle = color; 
+  ctx.fillRect(x, y, h, l);  
+  x += 0; // don't move here but to moves on x axis put "vx". 
+  y += vy; // up & down moves moves on y axis.
   if (y + vy > canvas.height - h || y + vy < 0) {
-    vy *= -1;
+    vy *= 0; // put -1 here to rebound on contact with a side.
   }
-  // condition for width. 
+  // condition for width ==> collide and rebound for right & left side.
   if (x + vx > canvas.width - h  || x + vx < 0) {
     vx *= -1;
   }
 }
 
-setInterval(update, 80);
+setInterval(update, 800);
 
 
 
