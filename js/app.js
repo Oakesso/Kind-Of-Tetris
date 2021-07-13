@@ -1,10 +1,10 @@
-var canvas = document.getElementById("myCanvas");
+var canvas = document.getElementById("canvasOne");
 canvas.addEventListener('keydown', actionOnArrowKeys, true);
 const ctx = canvas.getContext('2d');
 let x = 250; // starting position on x axis
 let y = 0; // starting position on y axis
-let vx = 25; // speed applied for x axis moves.
-let vy = 25; // speed applied for y axis moves.
+let vx = 50; // speed applied for x axis moves.
+let vy = 50; // speed applied for y axis moves.
 let color = 'blue';
 const h = 50; // hight size.
 const l = h; // width size (= h to have a square shape.
@@ -19,10 +19,12 @@ function topWall () {
   }
 }
 
+let limit = canvas.height - h;
+
 // square limit for bottom side. 
 function bottomWall () {
-  if (y >= (canvas.height - h)) {
-    y = (canvas.height - h);
+  if (y >= limit) {
+    y = limit;
   } else {
     y = y + movement;    
   }
@@ -48,35 +50,42 @@ function rigthWall () {
 
 function actionOnArrowKeys(e){
   // UP.
-  if (e.keyCode == 38) {
-    console.log(canvas.height, y - canvas.height, x, y);
-    topWall ();
+  if (e.keyCode === 38) {
+    if (y !== (canvas.height - h)) {
+      topWall ();
+    }
+    
   }
   // DOWN.
-  if (e.keyCode == 40) {
-    console.log(canvas.height, y + canvas.height, x, y);
-    bottomWall ();
+  if (e.keyCode === 40) {
+    if (y !== (canvas.height - h)) {
+      bottomWall ();
+    }
   }
   // LEFT.
-  if (e.keyCode == 37) {
-    console.log(canvas.width, x - canvas.width, x, y);
-    leftWall ();    
-    }
+  if (e.keyCode === 37) {
+    if (y !== (canvas.height - 50)) {
+      leftWall (); 
+    }   
+  }
   //	RIGHT.
-  if (e.keyCode == 39) {
-    console.log(canvas.width, x + canvas.width, x, y);
-    rigthWall ();    
+  if (e.keyCode === 39) {
+    if (y !== (canvas.height - 50)) {
+      rigthWall ();    
+    }
   }
 }
 
 function update() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = color; 
-  ctx.fillRect(x, y, h, l);  
+  ctx.fillStyle = 'rgba(185, 211, 238, 0.7)'; 
+  ctx.fillRect(x, y, h, l);
+  // ctx.fillRect(50, 50, 100, l);  
   x += 0; // don't move here but to moves on x axis put "vx". 
   y += vy; // up & down moves moves on y axis.
   if (y + vy > canvas.height - h || y + vy < 0) {
     vy *= 0; // put -1 here to rebound on contact with a side.
+    console.log(x, y); // print shape's coordinates
   }
   // condition for width ==> collide and rebound for right & left side.
   if (x + vx > canvas.width - h  || x + vx < 0) {
@@ -84,7 +93,7 @@ function update() {
   }
 }
 
-setInterval(update, 800);
+setInterval(update, 1000);
 
 
 

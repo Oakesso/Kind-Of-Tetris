@@ -1,7 +1,12 @@
 /* style the rectangle where will be the tetris gameplay */
-canvas {
+#canvasOne {
   display:block;
   margin:auto;
-  border:2px solid grey;
-
+  border:20px solid hsla(216, 63%, 45%, 0.515);
 }
+
+/* #canvasTwo {
+  display:block;
+  margin:auto;
+  border-bottom:50px solid red;
+} */
