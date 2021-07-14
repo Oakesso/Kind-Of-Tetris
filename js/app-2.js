@@ -1,79 +1,108 @@
-var canvas = document.getElementById("myCanvas");
-canvas.addEventListener('keydown', actionOnArrowKeys, true);
-const ctx = canvas.getContext('2d');
+// -------------------------------------------------------
+// Canvas One treatments.
+// -------------------------------------------------------
 
-// define starting position for the shape.
-let x = 250;
-let y = 0;
+let canvasOne = document.getElementById("canvasOne");
+canvasOne.addEventListener('keydown', actionOnArrowKeys, true);
+const ctx1 = canvasOne.getContext('2d');
 
-// speed for square moves.
-let vx = 10;
-let vy = 10;
+function element () {
+  
+}
 
-let color = 'blue';
+let x = 250; // starting position on x axis
+let y = 0; // starting position on y axis
+let vx = 0; // speed applied for x axis moves.
+let vy = 0; // speed applied for y axis moves.
+let color = 'rgba(255, 155, 71, 1)';
+const h = 50; // hight size.
+const l = h; // width size (= h to have a square shape.
+const movement = 50; //  distance applied on arrow key pressed.
+let limitHeight = canvasOne.height - h;
+let limitWidth = canvasOne.width - h;
 
-// sizing ractangular shape.
-const h = 50; // hight.
-const l = 50; // width = long.
-
-// move distance to apply when arrow key pressed.
-const movement = 50;
-
-// function triggered for event listener. 
-function actionOnArrowKeys(e){
-  //	ARROW KEY --> UP.
-  if (e.keyCode == 38) {
-    console.log(e.keyCode);
+// square limit for top side. 
+function topWall () {
+  if (y <= 0) {
+    y = 0;
+  } else {
     y = y - movement;
-  }
-
-  //	ARROW KEY --> DOWN.
-  if (e.keyCode == 40) {
-    console.log(e.keyCode);
-    y = y + movement;
-  }
-
-  //	ARROW KEY --> LEFT.
-  if (e.keyCode == 37) {
-    console.log(e.keyCode);
-    x = x - movement;
-    if (x - movement > canvas.width) {x = canvas.width}
-  }
-
-  //	ARROW KEY --> RIGHT.
-  if (e.keyCode == 39) {
-    console.log(e.keyCode);
-    x = x + movement;
   }
 }
 
-function update() {
-  // erase ancient position of the shape in movement.
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // draw the rectangular shape in canvas' context.
-  ctx.fillRect(x, y, h, l);
-  // apply color to shape.
-  ctx.fillStyle = color;
-  
-  // ctx.fillRect(h + dev, y, h, l);
-  // ctx.fillRect(h*2 + dev, y, h, l);
-  // ctx.fillRect(dev, y + l, h, l);
-  // ctx.fillRect(50, 100, 50, 50);
-
-  // define shape movements. 
-  // x += vx; // right & left moves. used for lateral moves.
-  y += vy; // up & down moves.
-  // condition for height: stop movement. 
-  if (y + vy > canvas.height - h || y + vy < 0) {
-    vy *= -1;
+// square limit for bottom side. 
+function bottomWall () {
+  if (y >= limitHeight) {
+    y = limitHeight;
+  } else {
+    y = y + movement;    
   }
-  // condition for width. 
-  if (x + vx > canvas.width - h  || x + vx < 0) {
+}
+
+// square shape limit for left side.
+function leftWall () {
+  if (x <= 0) {
+    x = 0;
+  } else {
+    x = x - movement;
+  }
+}
+
+//square shape limit for rigth side.
+function rigthWall () {
+  if (x >= limitWidth) {
+    x = limitWidth;
+  } else {
+    x = x + movement;    
+  }
+}
+
+function actionOnArrowKeys(e){
+  // UP.
+  if (e.keyCode === 38) {
+    if (y !== limitHeight) {
+      topWall ();
+    }
+    
+  }
+  // DOWN.
+  if (e.keyCode === 40) {
+    if (y !== limitHeight) {
+      bottomWall ();
+    }
+  }
+  // LEFT.
+  if (e.keyCode === 37) {
+    if (y !== limitHeight) {
+      leftWall (); 
+    }   
+  }
+  //	RIGHT.
+  if (e.keyCode === 39) {
+    if (y !== limitHeight) {
+      rigthWall ();    
+    }
+  }
+}
+
+function firstElement() {
+  ctx1.clearRect(0, 0, canvasOne.width, canvasOne.height);
+  ctx1.fillStyle = color; 
+  ctx1.fillRect(x, y, h, l);
+  elements();  
+  x += 0; // don't move here but to moves on x axis put "vx". 
+  y += vy; // up & down moves moves on y axis.
+  if (y + vy > limitHeight || y + vy < 0) {
+    vy *= 0; // put -1 here to rebound on contact with a side.
+  }
+  // condition for width ==> collide and rebound for right & left side.
+  if (x + vx > limitWidth  || x + vx < 0) {
     vx *= -1;
   }
 }
 
-setInterval(update, 80);
+setInterval(firstElement, 800);
+
 
 
 

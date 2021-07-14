@@ -6,11 +6,12 @@ let canvasOne = document.getElementById("canvasOne");
 canvasOne.addEventListener('keydown', actionOnArrowKeys, true);
 const ctx1 = canvasOne.getContext('2d');
 
-let x = 250; // starting position on x axis
+
+let x = 0; // starting position on x axis
 let y = 0; // starting position on y axis
-let vx = 50; // speed applied for x axis moves.
-let vy = 50; // speed applied for y axis moves.
-let color = 'rgba(185, 211, 238, 0.7)';
+let vx = 0; // speed applied for x axis moves.
+let vy = 0; // speed applied for y axis moves.
+let color = 'rgba(255, 155, 71, 1)';
 const h = 50; // hight size.
 const l = h; // width size (= h to have a square shape.
 const movement = 50; //  distance applied on arrow key pressed.
