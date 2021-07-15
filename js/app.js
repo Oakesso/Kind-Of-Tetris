@@ -3,13 +3,13 @@ const board_background = 'rgba(255,255,255, 1)';
 const snake_col = 'lightblue';
 const apple_col = 'red';
 const snake_border = 'darkblue';
-const genSize = 20;
+const genSize = 10;
 
 let snake = [        // snake coordinates at start.
   {x: 200, y: 200},  // this is the snake's head.
-  {x: 190, y: 200},
-  {x: 180, y: 200},
-  {x: 170, y: 200},
+  // {x: 190, y: 200},
+  // {x: 180, y: 200},
+  // {x: 170, y: 200},
   {x: 160, y: 200}   // last element of snake.
 ]
 
@@ -71,7 +71,6 @@ function drawSnake() {
 
 // Draw one snake part
 function drawSnakePart(snakePart) {
-
   // Set the colour of the snake part
   snakeboard_ctx.fillStyle = snake_col;
   // Set the border colour of the snake part
@@ -101,15 +100,16 @@ function checkCollision () {
       // push new eaten element to snake body.
       snake.push({x: snake[snake.length - 1].x, y: snake[snake.length - 1].y })
       console.log(snake);
-      console.log(randomApple ());                    
+      console.log(randomApple ());   
+      randomApple ();                 
     }
 }
 
 // random apple coordinates.
 function randomApple () {   
   apple = {
-      x: Math.floor(Math.random()*snakeboard.width), 
-      y: Math.floor(Math.random()*snakeboard.height)
+      x: Math.floor(Math.random()*(snakeboard.width - genSize)), 
+      y: Math.floor(Math.random()*(snakeboard.height - genSize))
   }
   return apple;
 }
@@ -164,6 +164,6 @@ function move_snake() {
   const head = {x: snake[0].x + dx, y: snake[0].y + dy};
   // Add the new head to the beginning of snake body
   snake.unshift(head);
-  const has_eaten_food = checkCollision ();
+  // const has_eaten_food = checkCollision ();
   snake.pop();
 }
