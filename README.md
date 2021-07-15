@@ -1,2 +1,2 @@
-# Kind Of tetris game that become a snake game:
+# KindOfTetris Game :
 for training purpose only with the certification school ironhack.

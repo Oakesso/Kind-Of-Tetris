@@ -1,0 +1,77 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap');
+
+/* @font-face {
+  font-family: GAME_glm;
+  src: url("/fonts/28-days-later/GAME_glm.ttf") format("ttf");
+} */
+
+body {
+  background-image: url("../img/wallpaper-688038.png");
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+
+#canvas {
+  display:block;
+  margin:auto;
+  border:rgb(114, 12, 12) 4px solid;
+  border-radius: 10px;
+  margin-left: 400px;
+  margin-top: 50px;
+  /* position: center; */
+  max-width: 100%;
+  align-content: center;
+  padding: 25px;
+  max-height: 100%;
+  background: rgba(228, 212, 212, 0.6);
+}
+
+.grid{  
+  font-family: Inconsolata; 
+  border: rgb(114, 12, 12) 4px solid;
+  border-radius: 10px;
+  max-width: 20%;
+  margin-left: 400px;
+  margin-top: 10px;
+  background: rgba(228, 212, 212, 0.6);
+}
+
+.grid h1{
+  font-size: 72px;
+  text-align: center;
+}
+
+.grid p{
+  font-size: 36px;
+}
+
+.result{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.score{
+  margin-right: 1500px;
+  margin-top: 600px;
+
+  margin-bottom: 400px;
+  font-size: 48px;
+ max-width:fit-content;
+  /* font-family: Inconsolata; */
+  font-weight: bold;
+  border:rgb(114, 12, 12) 4px solid;
+  max-width: 20%;
+  max-height: 70vh;
+  padding: 25px;
+  border-radius: 10px;
+  background: rgba(228, 212, 212, 0.6);
+  
+}
+
+
+
