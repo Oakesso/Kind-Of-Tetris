@@ -1,9 +1,10 @@
-const board_border = 'black';
-const board_background = 'rgba(255,255,255, 1)';
-const snake_col = 'lightblue';
-const apple_col = 'red';
+const board_border = 'white';
+const board_background = 'rgba(255,255,255, 0.5)';
+const snake_col = 'rgb(42, 164, 201)';
+const apple_col = 'rgb(225, 20, 64)';
 const snake_border = 'darkblue';
-const genSize = 10;
+const genSize = 30;
+var score = 0;
 
 let snake = [        // snake coordinates at start.
   {x: 200, y: 200},  // this is the snake's head.
@@ -48,7 +49,7 @@ function main() {
     checkCollision();
     // Call main again
     main();
-  }, 100)
+  }, 200)
 }
 
 // draw a border around the canvas
@@ -91,18 +92,23 @@ function drawApple () {
 }
 
 // Check collision. 
-function checkCollision () {
+function checkCollision () {  
   if (snake[0].x < apple.x + genSize && 
     snake[0].x + genSize > apple.x && 
     snake[0].y < apple.y + genSize &&
     snake[0].y + genSize > apple.y) {
-      console.log('collision detected!');
+      score += 10;
+      console.log('collision detected!', score);
       // push new eaten element to snake body.
       snake.push({x: snake[snake.length - 1].x, y: snake[snake.length - 1].y })
       console.log(snake);
       console.log(randomApple ());   
       randomApple ();                 
     }
+    const scoreDisplay = document.querySelector('.score');
+    scoreDisplay.innerHTML= (`Score : ${score}`);
+
+  return score;
 }
 
 // random apple coordinates.
