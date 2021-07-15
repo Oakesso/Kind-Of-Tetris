@@ -3,7 +3,7 @@ const board_background = 'rgba(255,255,255, 1)';
 const snake_col = 'lightblue';
 const apple_col = 'red';
 const snake_border = 'darkblue';
-const genSize = 10;
+const genSize = 20;
 
 let snake = [        // snake coordinates at start.
   {x: 200, y: 200},  // this is the snake's head.
@@ -21,7 +21,7 @@ let apple = {
 // True if changing direction
 let changing_direction = false;
 // Horizontal velocity
-let dx = 10;
+let dx = genSize;
 // Vertical velocity
 let dy = 0;
 
@@ -98,12 +98,20 @@ function checkCollision () {
     snake[0].y < apple.y + genSize &&
     snake[0].y + genSize > apple.y) {
       console.log('collision detected!');
+      // push new eaten element to snake body.
       snake.push({x: snake[snake.length - 1].x, y: snake[snake.length - 1].y })
       console.log(snake);
-      apple = {
-        x: 0, y:500
-      }  
+      console.log(randomApple ());                    
     }
+}
+
+// random apple coordinates.
+function randomApple () {   
+  apple = {
+      x: Math.floor(Math.random()*snakeboard.width), 
+      y: Math.floor(Math.random()*snakeboard.height)
+  }
+  return apple;
 }
 
 
@@ -112,9 +120,9 @@ function has_game_ended() {
     if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true
   }
   const hitLeftWall = snake[0].x < 0;
-  const hitRightWall = snake[0].x > snakeboard.width - 10;
+  const hitRightWall = snake[0].x > snakeboard.width - genSize;
   const hitToptWall = snake[0].y < 0;
-  const hitBottomWall = snake[0].y > snakeboard.height - 10;
+  const hitBottomWall = snake[0].y > snakeboard.height - genSize;
   return hitLeftWall || hitRightWall || hitToptWall || hitBottomWall
 }
 
@@ -134,20 +142,20 @@ function change_direction(event) {
   const goingRight = dx === 10;
   const goingLeft = dx === -10;
   if (keyPressed === LEFT_KEY && !goingRight) {
-    dx = -10;
+    dx = -genSize;
     dy = 0;
   }
   if (keyPressed === UP_KEY && !goingDown) {
     dx = 0;
-    dy = -10;
+    dy = -genSize;
   }
   if (keyPressed === RIGHT_KEY && !goingLeft) {
-    dx = 10;
+    dx = genSize;
     dy = 0;
   }
   if (keyPressed === DOWN_KEY && !goingUp) {
     dx = 0;
-    dy = 10;
+    dy = genSize;
   }
 }
 
