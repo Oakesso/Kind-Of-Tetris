@@ -1,115 +1,161 @@
-// -------------------------------------------------------
-// Canvas One treatments.
-// -------------------------------------------------------
+const board_border = 'black';
+const board_background = 'rgba(255,255,255, 1)';
+const snake_col = 'lightblue';
+const apple_col = 'red';
+const snake_border = 'darkblue';
+const genSize = 10;
 
-let canvasOne = document.getElementById("canvasOne");
-canvasOne.addEventListener('keydown', actionOnArrowKeys, true);
-const ctx1 = canvasOne.getContext('2d');
+let snake = [        // snake coordinates at start.
+  {x: 200, y: 200},  // this is the snake's head.
+  {x: 190, y: 200},
+  {x: 180, y: 200},
+  {x: 170, y: 200},
+  {x: 160, y: 200}   // last element of snake.
+]
 
 
-let x = 0; // starting position on x axis
-let y = 0; // starting position on y axis
-let vx = 0; // speed applied for x axis moves.
-let vy = 0; // speed applied for y axis moves.
-let color = 'rgba(255, 155, 71, 1)';
-const h = 50; // hight size.
-const l = h; // width size (= h to have a square shape.
-const movement = 50; //  distance applied on arrow key pressed.
-let limitHeight = canvasOne.height - h;
-let limitWidth = canvasOne.width - h;
-
-// square limit for top side. 
-function topWall () {
-  if (y <= 0) {
-    y = 0;
-  } else {
-    y = y - movement;
-  }
+let apple = {
+  x: 250, y:500     // apple coordinates at the begining. 
 }
 
-// square limit for bottom side. 
-function bottomWall () {
-  if (y >= limitHeight) {
-    y = limitHeight;
-  } else {
-    y = y + movement;    
-  }
+// True if changing direction
+let changing_direction = false;
+// Horizontal velocity
+let dx = 10;
+// Vertical velocity
+let dy = 0;
+
+// Get the canvas element
+const snakeboard = document.getElementById("canvas");
+// Return a two dimensional drawing context
+const snakeboard_ctx = snakeboard.getContext("2d");
+// Start game
+main();
+
+document.addEventListener("keydown", change_direction);
+
+// main function called repeatedly to keep the game running
+function main() {
+
+    if (has_game_ended()) return;
+
+    changing_direction = false;
+    setTimeout(function onTick() {
+    clear_board();
+    move_snake();
+    drawSnake();
+    drawApple();
+    checkCollision();
+    // Call main again
+    main();
+  }, 100)
 }
 
-// square shape limit for left side.
-function leftWall () {
-  if (x <= 0) {
-    x = 0;
-  } else {
-    x = x - movement;
-  }
+// draw a border around the canvas
+function clear_board() {
+  //  Select the colour to fill the drawing
+  snakeboard_ctx.fillStyle = board_background;
+  //  Select the colour for the border of the canvas
+  snakeboard_ctx.strokestyle = board_border;
+  // Draw a "filled" rectangle to cover the entire canvas
+  snakeboard_ctx.fillRect(0, 0, snakeboard.width, snakeboard.height);
+  // Draw a "border" around the entire canvas
+  snakeboard_ctx.strokeRect(0, 0, snakeboard.width, snakeboard.height);
 }
 
-//square shape limit for rigth side.
-function rigthWall () {
-  if (x >= limitWidth) {
-    x = limitWidth;
-  } else {
-    x = x + movement;    
-  }
+// Draw the snake on the canvas
+function drawSnake() {
+  // Draw each part
+  snake.forEach(drawSnakePart)
 }
 
-function actionOnArrowKeys(e){
-  // UP.
-  if (e.keyCode === 38) {
-    if (y !== limitHeight) {
-      topWall ();
+// Draw one snake part
+function drawSnakePart(snakePart) {
+
+  // Set the colour of the snake part
+  snakeboard_ctx.fillStyle = snake_col;
+  // Set the border colour of the snake part
+  snakeboard_ctx.strokestyle = snake_border;
+  // Draw a "filled" rectangle to represent the snake part at the coordinates
+  // the part is located
+  snakeboard_ctx.fillRect(snakePart.x, snakePart.y, genSize, genSize);
+  // Draw a border around the snake part
+  snakeboard_ctx.strokeRect(snakePart.x, snakePart.y, genSize, genSize);
+}
+
+// Draw apple.
+function drawApple () {
+  snakeboard_ctx.fillStyle = apple_col;
+  snakeboard_ctx.strokestyle = 'black';
+  snakeboard_ctx.fillRect(apple.x, apple.y, genSize, genSize);
+  snakeboard_ctx.strokeRect(apple.x, apple.y, genSize, genSize);
+}
+
+// Check collision. 
+function checkCollision () {
+  if (snake[0].x < apple.x + genSize && 
+    snake[0].x + genSize > apple.x && 
+    snake[0].y < apple.y + genSize &&
+    snake[0].y + genSize > apple.y) {
+      console.log('collision detected!');
+      snake.push({x: snake[snake.length - 1].x, y: snake[snake.length - 1].y })
+      console.log(snake);
+      apple = {
+        x: 0, y:500
+      }  
     }
-    
-  }
-  // DOWN.
-  if (e.keyCode === 40) {
-    if (y !== limitHeight) {
-      bottomWall ();
-    }
-  }
-  // LEFT.
-  if (e.keyCode === 37) {
-    if (y !== limitHeight) {
-      leftWall (); 
-    }   
-  }
-  //	RIGHT.
-  if (e.keyCode === 39) {
-    if (y !== limitHeight) {
-      rigthWall ();    
-    }
-  }
-}
-
-function elements () {
-  ctx1.fillRect(100, 300, 150, 50);
-  ctx1.fillRect(100, 300, 150, 50);
 }
 
 
-function firstElement() {
-  ctx1.clearRect(0, 0, canvasOne.width, canvasOne.height);
-  ctx1.fillStyle = color; 
-  ctx1.fillRect(x, y, h, l);
-  elements();  
-  x += 0; // don't move here but to moves on x axis put "vx". 
-  y += vy; // up & down moves moves on y axis.
-  if (y + vy > limitHeight || y + vy < 0) {
-    vy *= 0; // put -1 here to rebound on contact with a side.
+function has_game_ended() {
+  for (let i = 4; i < snake.length; i++) {
+    if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true
   }
-  // condition for width ==> collide and rebound for right & left side.
-  if (x + vx > limitWidth  || x + vx < 0) {
-    vx *= -1;
+  const hitLeftWall = snake[0].x < 0;
+  const hitRightWall = snake[0].x > snakeboard.width - 10;
+  const hitToptWall = snake[0].y < 0;
+  const hitBottomWall = snake[0].y > snakeboard.height - 10;
+  return hitLeftWall || hitRightWall || hitToptWall || hitBottomWall
+}
+
+function change_direction(event) {
+  const LEFT_KEY = 37;
+  const RIGHT_KEY = 39;
+  const UP_KEY = 38;
+  const DOWN_KEY = 40;
+  
+// Prevent the snake from reversing
+
+  if (changing_direction) return;
+  changing_direction = true;
+  const keyPressed = event.keyCode;
+  const goingUp = dy === -10;
+  const goingDown = dy === 10;
+  const goingRight = dx === 10;
+  const goingLeft = dx === -10;
+  if (keyPressed === LEFT_KEY && !goingRight) {
+    dx = -10;
+    dy = 0;
+  }
+  if (keyPressed === UP_KEY && !goingDown) {
+    dx = 0;
+    dy = -10;
+  }
+  if (keyPressed === RIGHT_KEY && !goingLeft) {
+    dx = 10;
+    dy = 0;
+  }
+  if (keyPressed === DOWN_KEY && !goingUp) {
+    dx = 0;
+    dy = 10;
   }
 }
 
-setInterval(firstElement, 800);
-
-
-
-
-
- 
-
-
+function move_snake() {
+  // Create the new Snake's head
+  const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+  // Add the new head to the beginning of snake body
+  snake.unshift(head);
+  const has_eaten_food = checkCollision ();
+  snake.pop();
+}

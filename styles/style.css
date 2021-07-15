@@ -1,34 +1,23 @@
 body {
   background-image: url("../img/street.jpg");
-  height: 100%;
-  /* width: 100%; */
+  height: 85vh;
+  width: 85vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #cccccc;
 }
 
-#canvasOne {
+#canvas {
   background-color: rgba(255,255,255, 0.75);
   display:block;
   margin:auto;
-  border:10px solid rgba(22, 33, 49, 0.515);
+  border:5px solid rgba(17, 93, 208, 0.713);
   border-radius: 25px;
   margin-top: 200px;
-  position:sticky;
+  position:center;
   /* left:0px;
   top:0px; */
 }
 
-/* #canvasTwo {
-  background-color: rgba(255,255,255, 0.75);
-  display:block;
-  margin:auto;
-  border:10px solid rgba(22, 33, 49, 0.515);
-  border-radius: 25px;
-  margin-top: 200px;
-  position:auto;
-  left:0px;
-  top:0px;
-} */
 
