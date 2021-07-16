@@ -83,8 +83,8 @@ h2 {
   font-family: 'Bungee Shade', cursive;
   /* display: flexbox; */
   /* margin-right: 1500px; */
-  margin-top: 5px;
-  margin-left: 75px;
+  margin-top: 25px;
+  margin-right: -100px;
   width: 550px;
   height: 70px;
   /* margin-bottom: -10px; */
@@ -98,9 +98,16 @@ h2 {
   /* border-radius: 10px; */
   /* background: rgba(228, 212, 212, 0.125); */
   /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  */
-
-  
 }
+
+/* img {
+  display: flex;
+  /* float:left; */
+  width:45px;
+  height:45px;
+  margin-top: -85px;
+  margin-left: 460px;
+} */
 
 
 
