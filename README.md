@@ -1,6 +1,7 @@
 # KindOfTetris Game transformed in Snake Game :
 
-https://tinyurl.com/snakegame-presentation
+DEMO : https://tinyurl.com/snakeGamejs
+PRESENTATION: https://tinyurl.com/snakegame-presentation
 
 for training purpose only with the certification school ironhack.
 
