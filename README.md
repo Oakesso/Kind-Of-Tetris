@@ -9,7 +9,7 @@ Next things to do to improve this simple game with canvas.
 
 - Add Camel case in code. --- (Done)
 - Add refactoring to the code. --- (Done)
-- Add instructions for user.
+- Add instructions for user. --- (Pending...)
 - Add start, pause & play again buttons.
 - Responsive CSS → mobile first.
 - Add difficulty levels, features,...
