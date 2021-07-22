@@ -3,7 +3,7 @@
 - DEMO : https://tinyurl.com/snakeGamejs
 - PRESENTATION: https://tinyurl.com/snakegame-presentation
 
-for training purpose only with the certification school ironhack.
+for training purpose only with the ironhack coding bootcamp.
 
 Next things to do to improve this simple game with canvas.
 
